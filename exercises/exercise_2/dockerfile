@@ -1,0 +1,20 @@
+FROM python:3.9
+
+WORKDIR /app
+
+COPY . .
+
+# 安装所需的 Python 库
+RUN pip install --no-cache-dir matplotlib pandas
+
+# 从 requirements.txt 文件中读取并安装项目所需的所有 Python 依赖库。
+RUN pip install -r requirements.txt
+
+CMD [ "python", "src/os_data.py"]
+
+
+
+
+
+# --no-cache-dir 是 pip install 的一个选项，用于避免缓存安装包。
+# 默认情况下，pip 会在安装包时将下载的 .whl 文件（或源代码包）缓存到临时目录。
