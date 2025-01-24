@@ -1,0 +1,27 @@
+# base layer - starting from an existing image
+FROM python:3.13
+
+# instruction layer - where we will start in the container
+WORKDIR /app
+
+# instruction layer - copies everything from this folder in host in host system into /app
+COPY . .
+
+# instruction layer - installing packages (runs bash command)
+RUN pip install -r requirements.txt
+
+# instruction layer - bash command to run when container is spun up
+CMD ["python", "main.py"]
+
+
+
+
+
+
+
+
+# /app 目录：这个路径是容器内部的路径，和你本地的文件夹没有直接关系。如果 /app 文件夹已经存在，则会直接切换到这个目录。即使你在本地没有 app 文件夹，这条指令也会在容器中正常工作。
+
+
+
+
