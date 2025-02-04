@@ -13,7 +13,6 @@
 --     beslut = 'Beviljad'
 --     AND utbildningsområde = 'Data/IT';
 
-
 SELECT
     utbildningsnamn,
     utbildningsområde,
