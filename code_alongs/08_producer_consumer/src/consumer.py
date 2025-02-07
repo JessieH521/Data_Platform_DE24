@@ -9,7 +9,7 @@ app = Application(
 # deserializer，不序列化，用于消费者（Consumer）。value_serializer，用于生产者（Producer）。
 jokes_topic = app.topic(name="jokes", value_deserializer="json")
 
-# 创建 DataFrame 对象
+# 创建 DataFrame 对象, streaming Dataframe
 sdf = app.dataframe(topic=jokes_topic)
 
 sdf = sdf.update(lambda message: print(f"Input: {message}"))

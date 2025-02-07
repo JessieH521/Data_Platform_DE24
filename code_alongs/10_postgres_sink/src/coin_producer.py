@@ -6,68 +6,49 @@ from requests import Session, Timeout, TooManyRedirects
 import json
 from pprint import pprint
 
-app = Application(broker_address="localhost:9092", consumer_group="coin_group")
 
-coins_topic = app.topic(name="coins", value_serializer="json")
+def get_latest_coin_data(target_symbol="BTC"):
+    API_URL = "https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest"
 
-# 从 CoinMarketCap API 获取指定加密货币（默认 BTC）的最新价格数据。
-def get_latest_coin_data(symbol="BTC"):
-    url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/quotes/latest'
-    parameters = {
-        "symbol": symbol,     
-        "convert": "USD",           
-    }
+    parameters = {"symbol": target_symbol, "convert": "USD"}
+
     headers = {
-    'Accepts': 'application/json',
-    'X-CMC_PRO_API_KEY': COINMARKET_API,    
+        "Accepts": "application/json",
+        "X-CMC_PRO_API_KEY": COINMARKET_API,
     }
 
-    session = Session()         
-    session.headers.update(headers)     
+    session = Session()
+    session.headers.update(headers)
 
-    try:
-        response = session.get(url, params=parameters)    # 发送 HTTP GET 请求
-        # return json.loads(response.text).get("data").get(symbol)     # 将返回的 JSON 转换为 Python 字典
-        data = json.loads(response.text).get("data", {})
-        return data.get(symbol, {})
-    except (ConnectionError, Timeout, TooManyRedirects) as e:  # 网络连接问题，请求超时， 请求被重定向过多次
-        print(e)
+    response = session.get(API_URL, params=parameters)
+    return json.loads(response.text)["data"][target_symbol]
 
 
 def main():
+    app = Application(broker_address="localhost:9092", consumer_group="coin_group")
+    coins_topic = app.topic(name="coins", value_serializer="json")
 
     with app.get_producer() as producer:
         while True:
             coin_latest = get_latest_coin_data("BTC")
-            # pprint(latest_quotes)
-            # coin_latest = latest_quotes["quote"]
 
             kafka_message = coins_topic.serialize(
                 key=coin_latest["symbol"], value=coin_latest
             )
+
             print(
                 f"produce event with key = {kafka_message.key}, price = {coin_latest['quote']['USD']['price']}"
             )
+
             producer.produce(
                 topic=coins_topic.name, key=kafka_message.key, value=kafka_message.value
             )
 
+            time.sleep(10)
+
 
 if __name__ == "__main__":
-    # result = get_latest_coin_data("ETH")
-    # pprint(result)
     main()
-
-
-
-
-
-
-
-
-
-
-
 
 
 
