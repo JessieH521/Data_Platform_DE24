@@ -17,7 +17,7 @@ with open(data_path / "jokes.json", "r", encoding="utf-8") as file:
 # pprint(jokes)
 
 # create a Application instance and create a topic， 创建 Kafka Application 实例和主题
-app = Application(broker_address="localhost:9092", consumer_group="text-splitter")    # 在taml文档中找找
+app = Application(broker_address="localhost:9092", consumer_group="text-splitter")   
 jokes_topic = app.topic(name="jokes", value_serializer="json")
 
 # 指定 Kafka Broker 的地址（监听 9092 端口）, "text-splitter"：设置消费者组名称，用于标识客户端组。
