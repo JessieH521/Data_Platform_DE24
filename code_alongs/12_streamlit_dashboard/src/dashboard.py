@@ -1,11 +1,12 @@
 import streamlit as st
 from kpis import approved_percentage, number_approved, total_applications, provider_kpis
 from read_data import read_data
+from charts import approved_by_area_bar
 
 df = read_data()
 
 
-# 在浏览器里显示标题 YH dashboard 2024 applications. st.markdown() 显示 Markdown 格式的文本，# 表示一级标题（H1）
+# 1.在浏览器里显示标题 YH dashboard 2024 applications. st.markdown() 显示 Markdown 格式的文本，# 表示一级标题（H1）
 def layout():
     st.markdown("# YH dashboard 2024 applications")
     st.markdown(
@@ -22,6 +23,10 @@ def layout():
     for col, label, kpi in zip(cols, labels, kpis):
         with col:
             st.metric(label=label, value=kpi)
+
+    # 建一个柱状图
+    st.markdown("## Approved by area")
+    approved_by_area_bar()
 
     st.markdown("## Simple statistics on a given provider")
     st.markdown("Search for an educational provider")

@@ -21,4 +21,8 @@ def approved_by_area_bar():
                     """).df()
 
     # 建一个柱状图
-    st.bar_chart(df, x= "", y= )
+    st.bar_chart(df, x= "Utbildningsområde", y= "Beviljade" )
+
+
+
+
