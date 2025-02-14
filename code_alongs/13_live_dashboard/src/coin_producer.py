@@ -24,12 +24,10 @@ def get_latest_coin_data(target_symbol="BTC"):
 
     try:
         response = session.get(API_URL, params=parameters)    # 发送 HTTP GET 请求
-        return json.loads(response.text).get("data").get(target_symbol)                  # 将返回的 JSON 转换为 Python 字典
+        return json.loads(response.text).get("data").get(target_symbol)      # 将返回的 JSON 转换为 Python 字典
     except (ConnectionError, Timeout, TooManyRedirects) as e:
         print(e)
 
-    response = session.get(API_URL, params=parameters)    # 发送 GET 请求到 CoinMarketCap API，并返回响应。
-    return json.loads(response.text)["data"][target_symbol]   # 返回 从 JSON 响应中提取出指定加密货币的数据（例如 "BTC"）
 
 # 2.创建了一个 Quix Streams 的应用实例，创建了一个名为 coins 的 Kafka 主题，输出JSON，连接到本地的 Kafka 服务，
 def main():

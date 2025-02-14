@@ -5,7 +5,6 @@ from charts import approved_by_area_bar
 
 df = read_data()
 
-
 # 1.在浏览器里显示标题 YH dashboard 2024 applications. st.markdown() 显示 Markdown 格式的文本，# 表示一级标题（H1）
 def layout():
     st.markdown("# YH dashboard 2024 applications")
@@ -23,6 +22,7 @@ def layout():
     for col, label, kpi in zip(cols, labels, kpis):
         with col:
             st.metric(label=label, value=kpi)
+
 
     # 建一个柱状图
     st.markdown("## Approved by area")

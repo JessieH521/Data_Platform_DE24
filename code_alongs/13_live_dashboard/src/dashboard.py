@@ -23,7 +23,8 @@ def load_data(query):
         df = df.set_index("timestamp")   # 将 timestamp 列设置为索引
         return df
 
-# st_autorefresh() 是自动刷新页面 的方法，每 10 秒（10,000 毫秒）刷新一次页面，最多刷新 100 次，超出后就 不再自动刷新。 
+# ciunt 自定刷新网页
+# st_autorefresh() 是自动刷新页面 的方法，每 10 秒（10,000 毫秒）刷新一次页面，最多刷新 100 次，超出后就不再自动刷新。 
 # key 是 Streamlit 组件的唯一标识符，防止页面刷新时组件重新初始化。如不加 key，可能会误认是不同的组件，导致重复创建组件  
 count = st_autorefresh(interval=10 * 1000, limit=100, key="data_refresh")
 
@@ -45,6 +46,8 @@ def layout():
 
 if __name__ == "__main__":
     layout()
+
+
 
 
 
