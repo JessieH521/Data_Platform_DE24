@@ -28,7 +28,6 @@ def get_latest_coin_data(target_symbol="BTC"):
     except (ConnectionError, Timeout, TooManyRedirects) as e:
         print(e)
 
-
 # 2.创建了一个 Quix Streams 的应用实例，创建了一个名为 coins 的 Kafka 主题，输出JSON，连接到本地的 Kafka 服务，
 def main():
     app = Application(broker_address="localhost:9092", consumer_group="coin_group")
@@ -42,7 +41,7 @@ def main():
             # 4. 将获取到的数据序列化为 Kafka 消息
             kafka_message = coins_topic.serialize(key=coin_latest["symbol"], value=coin_latest)
 
-            print(f"produce event with key = {kafka_message.key}, price = {coin_latest['quote']['USD']['price']}")
+            print(f"produce event with key = {kafka_message.key}, price = {coin_latest['quote']['USD']['price']} USD")
 
             # 5.将序列化后的消息发送到 Kafka 主题 coins 中
             producer.produce(topic=coins_topic.name, key=kafka_message.key, value=kafka_message.value)
